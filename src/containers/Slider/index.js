@@ -18,7 +18,6 @@ const Slider = () => {
   };
   useEffect(() => {
     nextCard();
-
   });
   return (
     <div className="SlideCardList">
@@ -29,12 +28,14 @@ const Slider = () => {
             className={`SlideCard SlideCard--${index === idx ? "display" : "hide"
               }`}
           >
+
             <img src={event.cover} alt="forum" />
             <div className="SlideCard__descriptionContainer">
               <div className="SlideCard__description">
                 <h3>{event.title}</h3>
                 <p>{event.description}</p>
                 <div>{getMonth(new Date(event.date))}</div>
+
               </div>
             </div>
           </div>
