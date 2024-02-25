@@ -16,6 +16,7 @@ const Form = ({ onSuccess, onError }) => {
       try {
         await mockContactApi();
         setSending(false);
+        onSuccess()
       } catch (err) {
         setSending(false);
         onError(err);
@@ -43,7 +44,7 @@ const Form = ({ onSuccess, onError }) => {
         </div>
         <div className="col">
           <Field
-            placeholder="message"
+            placeholder=""
             label="Message"
             type={FIELD_TYPES.TEXTAREA}
           />
