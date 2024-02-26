@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react"; // Importation des hooks useEffect et useState de React
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid"
+import { useData } from "../../contexts/DataContext";
+import { getMonth } from "../../helpers/Date";
 
-import { useData } from "../../contexts/DataContext"; // Importation du hook useData du contexte DataContext
-
-import { getMonth } from "../../helpers/Date"; // Importation de la fonction getMonth depuis l'utilitaire Date
-
-
-import "./style.scss"; // Importation du fichier de style
+import "./style.scss";
 
 const Slider = () => {
 
-  const { data } = useData(); // Extraction des données depuis le contexte DataContext
-  const [index, setIndex] = useState(0); // Déclaration d'un état pour l'index du carrousel
+  const { data } = useData();
+  const [index, setIndex] = useState(0);
   // Tri des événements par date décroissante
   const byDateDesc = data?.focus
     ? data?.focus.sort(
@@ -18,15 +16,14 @@ const Slider = () => {
     )
     : [];
   useEffect(() => {
-    // Utilisation de l'effet useEffect pour gérer le changement automatique d'index
+
     const interval = setInterval(() => {
-      // Définition d'un intervalle pour changer l'index automatiquement
       setIndex((current) =>
         current < byDateDesc.length - 1 ? current + 1 : 0
       ); // Incrémentation de l'index ou retour au début s'il atteint la fin
-    }, 5000); // Changement toutes les 5 secondes
-    return () => clearInterval(interval); // Nettoyage de l'intervalle lorsque le composant est démonté
-  }, [index, byDateDesc.length]); // Déclenchement de l'effet lorsque l'index ou la longueur des événements change
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [index, byDateDesc.length]);
   const handleOptionChange = (e) => {
     // Gestion du changement d'option dans la pagination
     setIndex(parseInt(e.target.value, 10)); // Mise à jour de l'index en fonction de la valeur sélectionnée
@@ -36,11 +33,11 @@ const Slider = () => {
       {byDateDesc?.map(
         (
           event,
-          idx // Mapping des événements pour les cartes du carrousel
+          idx
         ) => (
           <div
-            key={event.id} // Clé unique pour chaque événement
-            className={`SlideCard SlideCard--${index === idx ? "display" : "hide" // Ajout de la classe display ou hide en fonction de l'index actuel
+            key={event.id || uuidv4()} // Clé unique pour chaque événement
+            className={`SlideCard SlideCard--${index === idx ? "display" : "hide"
               }`}
           >
             <img src={event.cover} alt="forum" />
@@ -59,10 +56,10 @@ const Slider = () => {
           {byDateDesc.map(
             (
               event,
-              radioIdx // Mapping des événements pour les boutons de la pagination
+              radioIdx
             ) => (
               <input
-                key={event.id} // Clé unique pour chaque bouton
+                key={event.id || uuidv4()} // Clé unique pour chaque bouton
                 type="radio"
                 name="radio-button"
                 value={radioIdx}
@@ -76,4 +73,4 @@ const Slider = () => {
     </div>
   );
 };
-export default Slider; // Exportation de la composante Slider
+export default Slider; 
